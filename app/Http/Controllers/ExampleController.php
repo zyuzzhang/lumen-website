@@ -34,7 +34,7 @@ class ExampleController extends Controller
             Log::warning('request data error ,may be attacked', [
                 'save-mailchimp-info'
             ]);
-            return false;
+            return response()->json(['error_code' => 1001]);
         }
         $data = [];
         
@@ -45,13 +45,13 @@ class ExampleController extends Controller
             if (! $result) {
                 Log::error('the type of upmail save error');
             }
-            return true;
+            return response()->json(['error_code' => 0]);
         }
         if ($info['type'] == 'cleaned') {
             Enewsletter::where([
                 'email' => $info['data']['email']
             ])->delete();
-            return true;
+            return response()->json(['error_code' => 0]);
         }
         $model = $this->findModel($info['data']['email']);
         if ($info['type'] == 'subscribe') {
@@ -72,7 +72,7 @@ class ExampleController extends Controller
         if (! $result) {
             Log::error('the type of ' . $info['type'] . ' save error');
         }
-        return true;
+        return response()->json(['error_code' => 0]);
     }
 
     protected function findModel(string $email)
