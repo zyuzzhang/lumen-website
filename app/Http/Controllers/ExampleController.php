@@ -23,7 +23,7 @@ class ExampleController extends Controller
     public function test(Request $request)
     {
         $info = $request->post();
-        Log::info($info, [
+        Log::info($_POST, [
             'mailchimp'
         ]);
         Log::info($request->post('data')['merges']['FNAME'],['dadsadasda']);
@@ -36,10 +36,7 @@ class ExampleController extends Controller
             ]);
             return response()->json(['error_code' => 1001]);
         }
-        $encode = mb_detect_encoding($request->post('data')['merges']['FNAME'], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
         
-        $str_encode = mb_convert_encoding($request->post('data')['merges']['FNAME'], 'UTF-8', $encode);
-        Log::info($encode.'=='.$str_encode,['encode']);
         $data = [];        
         if ($info['type'] == 'upemail') {
             $model = $this->findModel($info['data']['old_email']);
