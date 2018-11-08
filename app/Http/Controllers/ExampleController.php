@@ -46,7 +46,7 @@ class ExampleController extends Controller {
 			Enewsletter::where ( [ 'email' => $info['data']['email'] ] )->delete();
 			return;
 		}
-		$model = $this->findModel ( $data ['email'] );
+		$model = $this->findModel ( $info ['data'] ['email'] );
 		if ($info ['type'] == 'subscribe') {
 			$model->IsUnsubscribe = 0;
 		}
