@@ -23,10 +23,9 @@ class ExampleController extends Controller
     public function test(Request $request)
     {
         $info = $request->post();
-        Log::info($_POST, [
+        Log::info($info, [
             'mailchimp'
         ]);
-        Log::info($request->post('data')['merges']['FNAME'],['dadsadasda']);
         $listId = $info['data']['list_id'] ?? '';
         
         if (config('newsletter.lists.thinkhotels.id') != $listId && config('newsletter.lists.hicom.id') != $listId) {
@@ -60,8 +59,8 @@ class ExampleController extends Controller
         if ($info['type'] == 'unsubscribe') {
             $model->IsUnsubscribe = 1;
         }
-        $model->firstname = '';//iconv('GBK','UTF-8',$info['data']['merges']['FNAME']);
-        $model->lastname = '';//iconv('GBK','UTF-8',$info['data']['merges']['LNAME']);
+        $model->firstname = $info['data']['merges']['FNAME'];
+        $model->lastname = $info['data']['merges']['LNAME'];
         $model->email = $info['data']['email'];
         $model->confirmemail = $info['data']['email'];
         $model->addDateTime = $info['fired_at'];
