@@ -44,6 +44,10 @@ class ExampleController extends Controller {
 			}
 			return;
 		}
+		if($info['type'] == 'cleaned'){
+			Enewsletter::where ( [ 'email' => $info['data']['email'] ] )->delete();
+			return;
+		}
 		$model = $this->findModel ( $data ['email'] );
 		if ($info ['type'] == 'subscribe') {
 			$model->IsUnsubscribe = 0;
@@ -64,9 +68,7 @@ class ExampleController extends Controller {
 		return;
 	}
 	protected function findModel(string $email) {
-		$model = Enewsletter::where ( [ 
-				'email' => $email 
-		] )->first ();
+		$model = Enewsletter::where ( [ 'email' => $email ] )->first ();
 		if ($model) {
 			return $model;
 		}
