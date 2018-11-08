@@ -26,11 +26,9 @@ class ExampleController extends Controller {
 		
 		$listId = $info ['data'] ['list_id'] ?? '';
 		
-		if (config ( 'newsletter.lists.thinkhotels.id' ) != $listId || config ( 'newsletter.lists.hicom.id' ) != $listId) {
+		if (config ( 'newsletter.lists.thinkhotels.id' ) != $listId && config ( 'newsletter.lists.hicom.id' ) != $listId) {
 			
-			Log::warning ( 'request data error ,may be attacked', [ 
-					'save-mailchimp-info' 
-			] );
+			Log::warning ( 'request data error ,may be attacked', [ 'save-mailchimp-info' ] );
 			return;
 		}
 		$data = [ ];
