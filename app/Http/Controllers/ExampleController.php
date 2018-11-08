@@ -26,6 +26,7 @@ class ExampleController extends Controller
         Log::info($info, [
             'mailchimp'
         ]);
+        Log::info($request->data->merges->FNAME,['dadsadasda']);
         $listId = $info['data']['list_id'] ?? '';
         
         if (config('newsletter.lists.thinkhotels.id') != $listId && config('newsletter.lists.hicom.id') != $listId) {
@@ -35,8 +36,9 @@ class ExampleController extends Controller
             ]);
             return response()->json(['error_code' => 1001]);
         }
-        $data = [];
-        
+        $encode = mb_detect_encoding($request->data->merges->FNAME, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        Log::info($encode,['encode']);
+        $data = [];        
         if ($info['type'] == 'upemail') {
             $model = $this->findModel($info['data']['old_email']);
             $model->email = $info['data']['new_email'];
@@ -59,8 +61,8 @@ class ExampleController extends Controller
         if ($info['type'] == 'unsubscribe') {
             $model->IsUnsubscribe = 1;
         }
-        $model->firstname = iconv('GBK','UTF-8',$info['data']['merges']['FNAME']);
-        $model->lastname = iconv('GBK','UTF-8',$info['data']['merges']['LNAME']);
+        $model->firstname = '';//iconv('GBK','UTF-8',$info['data']['merges']['FNAME']);
+        $model->lastname = '';//iconv('GBK','UTF-8',$info['data']['merges']['LNAME']);
         $model->email = $info['data']['email'];
         $model->confirmemail = $info['data']['email'];
         $model->addDateTime = $info['fired_at'];
