@@ -56,9 +56,9 @@ class ExampleController extends Controller {
 		$model->firstname = $info ['data'] ['merges'] ['FNAME'];
 		$model->lastname = $info ['data'] ['merges'] ['LNAME'];
 		$model->email = $info ['data'] ['email'];
-		$model->confirmemail = $data ['email'];
-		$model->addDateTime = $data ['fired_at'];
-		$model->site_id = $data ['data'] ['merges'] ['SITE_ID'];
+		$model->confirmemail = $info ['data'] ['email'];
+		$model->addDateTime = $info ['fired_at'];
+		$model->site_id = $info ['data'] ['merges'] ['SITE_ID'];
 		$result = $model->save ();
 		if (! $result) {
 			Log::error ( 'the type of ' . $info ['type'] . ' save error' );
