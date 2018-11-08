@@ -26,7 +26,7 @@ class ExampleController extends Controller
         Log::info($info, [
             'mailchimp'
         ]);
-        Log::info($request->data->merges->FNAME,['dadsadasda']);
+        Log::info($request->post('data')['merges']['FNAME'],['dadsadasda']);
         $listId = $info['data']['list_id'] ?? '';
         
         if (config('newsletter.lists.thinkhotels.id') != $listId && config('newsletter.lists.hicom.id') != $listId) {
@@ -36,8 +36,10 @@ class ExampleController extends Controller
             ]);
             return response()->json(['error_code' => 1001]);
         }
-        $encode = mb_detect_encoding($request->data->merges->FNAME, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
-        Log::info($encode,['encode']);
+        $encode = mb_detect_encoding($request->post('data')['merges']['FNAME'], array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+        
+        $str_encode = mb_convert_encoding($request->post('data')['merges']['FNAME'], 'UTF-8', $encode);
+        Log::info($encode.'=='.$str_encode,['encode']);
         $data = [];        
         if ($info['type'] == 'upemail') {
             $model = $this->findModel($info['data']['old_email']);
